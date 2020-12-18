@@ -63,7 +63,8 @@ class ThumbnailViewer extends StatelessWidget {
           List<Uint8List> _imageBytes = snapshot.data;
           return ListView.builder(
               controller: this.controller,
-              padding: EdgeInsets.only(left: this.startSpace, right: this.endSpace),
+              padding:
+                  EdgeInsets.only(left: this.startSpace, right: this.endSpace),
               scrollDirection: Axis.horizontal,
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
