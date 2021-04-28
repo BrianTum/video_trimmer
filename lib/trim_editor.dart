@@ -93,7 +93,8 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
         if (isPlaying) {
           widget.onChangePlaybackState(true);
           setState(() {
-            _currentPosition = videoPlayerController.value.position.inMilliseconds;
+            _currentPosition =
+                videoPlayerController.value.position.inMilliseconds;
 
             if (_currentPosition > _videoEndPos.toInt()) {
               widget.onChangePlaybackState(false);
@@ -107,7 +108,7 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
             }
           });
         } else {
-          if (videoPlayerController.value.initialized) {
+          if (videoPlayerController.value.isInitialized) {
             if (_animationController != null) {
               if ((_scrubberAnimation.value).toInt() == (_end).toInt()) {
                 _animationController.reset();
@@ -128,12 +129,14 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
 
       _videoEndPos = widget.maxDuration.inMilliseconds.toDouble();
       if (videoPlayerController.value.duration <= widget.maxDuration)
-        _videoEndPos = videoPlayerController.value.duration.inMilliseconds.toDouble();
+        _videoEndPos =
+            videoPlayerController.value.duration.inMilliseconds.toDouble();
 
       widget.onChangeEnd(_videoEndPos);
 
       //默认maxDuration对应10张缩略图
-      _numberOfThumbnails = ((_videoDuration / widget.maxDuration.inMilliseconds) * 10).toInt();
+      _numberOfThumbnails =
+          ((_videoDuration / widget.maxDuration.inMilliseconds) * 10).toInt();
       double _thumbnailWidth = _maxRegion / 10;
 
       if (_numberOfThumbnails <= 10) //上传的视频时长不大于最大时长
@@ -161,12 +164,14 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
     controller.addListener(() async {
       setState(() {
         _offset = controller.offset;
-        _videoStartPos = (_start - _arrivedLeft + controller.offset) * _fraction;
+        _videoStartPos =
+            (_start - _arrivedLeft + controller.offset) * _fraction;
         _videoEndPos = (_end - _arrivedLeft + controller.offset) * _fraction;
 
         _linearTween.begin = _start + _sliderLength;
         _linearTween.end = _end;
-        _animationController.duration = Duration(milliseconds: (_videoEndPos - _videoStartPos).toInt());
+        _animationController.duration =
+            Duration(milliseconds: (_videoEndPos - _videoStartPos).toInt());
         _animationController.reset();
 
         widget.onChangeStart(_videoStartPos);
@@ -174,7 +179,8 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
       });
 
       await videoPlayerController.pause();
-      await videoPlayerController.seekTo(Duration(milliseconds: _videoStartPos.toInt()));
+      await videoPlayerController
+          .seekTo(Duration(milliseconds: _videoStartPos.toInt()));
     });
   }
 
@@ -198,9 +204,11 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
       _fraction = _videoDuration / _maxRegion;
     }
 
-    _minLengthPixels = (widget.minDuration.inMilliseconds / widget.maxDuration.inMilliseconds) * _maxRegion;
-    if (Duration(milliseconds: _videoDuration).inSeconds <= widget.minDuration.inSeconds)
-      _minLengthPixels = _maxRegion; //不能拖动
+    _minLengthPixels = (widget.minDuration.inMilliseconds /
+            widget.maxDuration.inMilliseconds) *
+        _maxRegion;
+    if (Duration(milliseconds: _videoDuration).inSeconds <=
+        widget.minDuration.inSeconds) _minLengthPixels = _maxRegion; //不能拖动
 
     // Defining the tween points
     _linearTween = Tween(begin: _start + _sliderLength, end: _end);
@@ -368,10 +376,12 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
         });
 
         await videoPlayerController.pause();
-        await videoPlayerController.seekTo(Duration(milliseconds: _videoStartPos.toInt()));
+        await videoPlayerController
+            .seekTo(Duration(milliseconds: _videoStartPos.toInt()));
 
         _linearTween.begin = _start + _sliderLength;
-        _animationController.duration = Duration(milliseconds: (_videoEndPos - _videoStartPos).toInt());
+        _animationController.duration =
+            Duration(milliseconds: (_videoEndPos - _videoStartPos).toInt());
         _animationController.reset();
       },
       child: current,
@@ -419,10 +429,12 @@ class _TrimEditorState extends State<TrimEditor> with TickerProviderStateMixin {
         });
 
         await videoPlayerController.pause();
-        await videoPlayerController.seekTo(Duration(milliseconds: _videoStartPos.toInt()));
+        await videoPlayerController
+            .seekTo(Duration(milliseconds: _videoStartPos.toInt()));
 
         _linearTween.end = _end;
-        _animationController.duration = Duration(milliseconds: (_videoEndPos - _videoStartPos).toInt());
+        _animationController.duration =
+            Duration(milliseconds: (_videoEndPos - _videoStartPos).toInt());
         _animationController.reset();
       },
       child: current,
